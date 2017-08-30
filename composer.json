@@ -1,0 +1,35 @@
+{
+	"name": "xruff/TotpAuth",
+	"type": "library",
+	"description": "Nette extension for Time-Based One-Time Password Algorithm",
+	"keywords": ["nette", "Totp", "google", "component"],
+	"license": ["MIT"],
+	"authors": [
+		{
+			"name": "Pavel Lauko"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/XRuff/TotpAuth/issues"
+	},
+	"require": {
+		"tracy/tracy": "~2.3",
+		"xruff/basedbmodel": "dev-master",
+		"oops/totp-authenticator": "^2.1",
+		"guzzlehttp/guzzle": "^6.3"
+	},
+	"require-dev": {
+		"nette/tester": "~1.1.0",
+		"vanio/coding-standards": "^0.1@dev"
+	},
+	"autoload": {
+		"psr-4": {
+			"XRuff\\TotpAuth\\": "src"
+		}
+	},
+	"minimum-stability": "dev",
+	"scripts": {
+		"lint": "\"vendor/bin/phpcs\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --ignore=vendor src/.",
+		"fix": "\"vendor/bin/phpcbf\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --no-patch --ignore=vendor src/."
+	}
+}
