@@ -40,6 +40,11 @@ Scenario
 Documentation
 ------------
 
+Assumptions:
+
+* create table `rq` in database, use schema from file `sql/qr.sql`
+* `$user->indentity` have to contain properties `id` and `username`
+
 Configuration in config.neon.
 
 
@@ -49,7 +54,7 @@ extensions:
 
 totpAuth:
     issuer: NameOfMyApp  # mandatory
-    timeWindow: 1        # optional
+    timeWindow: 1        # optional - time tolerance
     codeSize: '300x300'  # optional - size ofgenerated QR code
 ```
 
