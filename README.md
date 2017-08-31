@@ -42,7 +42,7 @@ Documentation
 
 Assumptions:
 
-* create table `rq` in database, use schema from file `sql/qr.sql`
+* create table `qr` in database, use schema from file `sql/qr.sql`
 * `$user->indentity` have to contain properties `id` and `username`
 
 Configuration in config.neon.
