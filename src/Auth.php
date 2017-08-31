@@ -91,11 +91,11 @@ class Auth {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getQrBase64(): string
 	{
-		return 'data:image/png;base64,' . base64_encode($this->getQr());
+		return $this->hasSecret() ? null : 'data:image/png;base64,' . base64_encode($this->getQr());
 	}
 
 	/**
@@ -137,6 +137,9 @@ class Auth {
 	 */
 	private function getTotpUri(): string
 	{
+		if (!$this->user->isLoggedIn()) {
+			throw new Exception('User is not logged. Is not possible to generate TOTP URI.');
+		}
 		$secret = $this->getRandomSecret();
 		return $this->totpAuthenticator->getTotpUri($secret, $this->user->identity->username);
 	}

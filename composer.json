@@ -1,8 +1,8 @@
 {
-	"name": "xruff/TotpAuth",
+	"name": "xruff/totpauth",
 	"type": "library",
 	"description": "Nette extension for Time-Based One-Time Password Algorithm",
-	"keywords": ["nette", "Totp", "google", "component"],
+	"keywords": ["nette", "nette-framework", "qrcode", "qr","Totp", "google", "component"],
 	"license": ["MIT"],
 	"authors": [
 		{

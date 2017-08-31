@@ -48,8 +48,9 @@ extensions:
     socialTags: XRuff\TotpAuth\DI\TotpAuthExtension
 
 totpAuth:
-    issuer: NameOfMyApp
-    timeWindow: 1
+    issuer: NameOfMyApp  # mandatory
+    timeWindow: 1        # optional
+    codeSize: '300x300'  # optional - size ofgenerated QR code
 ```
 
 Presenter:
@@ -65,7 +66,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     public $auth;
 
     public function renderDefault() {
-        $this->template->qrCode = $this->auth->hasSecret() ? null : $this->auth->getQrBase64();
+        $this->template->qrCode = $this->auth->getQrBase64();
     }
 
     public function handleSaveUrl()
@@ -83,7 +84,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     protected function createComponentCodeForm()
     {
         $form = new UI\Form;
-        $form->addText('code', 'Code:');
+        $form->addText('code', 'Code');
         $form->addSubmit('submit', 'Auth me');
         $form->onSuccess[] = [$this, 'codeFormSucceeded'];
         return $form;
@@ -104,16 +105,15 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 default.latte:
 
 ```smarty
+    ...
     {if $qrCode}
         <img src="{$qrCode|nocheck}" alt="">
         <br>
         <a n:href="saveUrl!" class="btn btn-success">Confirm Code (have been added to Mobile Authenticator App)</a>
     {else}
         {control codeForm}
-        <a n:href="resetUrl!" class="btn btn-success">Reset auth method</a>
+        <a n:href="resetUrl!" class="btn btn-success">Reset auth code</a>
     {/if}
-</head>
-<body>
     ...
 ```
 
