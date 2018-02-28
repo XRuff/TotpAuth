@@ -3,9 +3,12 @@
 namespace XRuff\TotpAuth;
 
 use Nette\Object;
+use Nette\SmartObject;
 
-class Configuration extends Object
+class Configuration
 {
+	use SmartObject;
+
 	/** @var string $issuer */
 	public $issuer;
 
