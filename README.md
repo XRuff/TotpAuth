@@ -50,10 +50,11 @@ Configuration in config.neon.
 
 ```yml
 extensions:
-    socialTags: XRuff\TotpAuth\DI\TotpAuthExtension
+    totpAuth: XRuff\TotpAuth\DI\TotpAuthExtension
 
 totpAuth:
     issuer: NameOfMyApp  # mandatory
+    identityKey: login   # optional, Default is 'login' eg $user->identity->login
     timeWindow: 1        # optional - time tolerance
     codeSize: '300x300'  # optional - size ofgenerated QR code
 ```
@@ -67,8 +68,13 @@ use Nette\Application\UI;
 
 class HomepagePresenter extends Nette\Application\UI\Presenter
 {
-    /** @var Auth $auth @inject */
+    /** @var Auth $auth */
     public $auth;
+
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
 
     public function renderDefault() {
         $this->template->qrCode = $this->auth->getQrBase64();

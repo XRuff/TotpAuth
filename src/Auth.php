@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace XRuff\TotpAuth;
 
 use GuzzleHttp\Client;
@@ -65,8 +67,6 @@ class Auth {
 	public function saveSecret(): ActiveRow
 	{
 		$secret = $this->getSessionSection()->secret;
-		dump($this->qrRepository
-			->saveSecret($this->user->id, $secret ? $secret : $this->secret));
 		return $this->qrRepository
 			->saveSecret($this->user->id, $secret ? $secret : $this->secret);
 	}
@@ -95,7 +95,7 @@ class Auth {
 	 */
 	public function getQrBase64(): ?string
 	{
-		return $this->hasSecret() ? null : 'data:image/png;base64,' . base64_encode($this->getQr());
+		return $this->hasSecret() ? null : 'data:image/png;base64,' . base64_encode($this->getQr()->__toString());
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Auth {
 			throw new Exception('User is not logged. Is not possible to generate TOTP URI.');
 		}
 		$secret = $this->getRandomSecret();
-		return $this->totpAuthenticator->getTotpUri($secret, $this->user->identity->username);
+		return $this->totpAuthenticator->getTotpUri($secret, $this->user->identity->{$this->config->identityKey});
 	}
 
 	/**
@@ -163,7 +163,7 @@ class Auth {
 			$res = $client->request('GET', $this->getQrUri());
 		} catch (ClientException $e) {
 			Debugger::log($e, 'totpAuth');
-			throw new Exception($e);
+			throw new Exception($e->getMessage());
 		}
 
 		return $res->getBody();

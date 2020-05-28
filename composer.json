@@ -12,13 +12,19 @@
 	"support": {
 		"issues": "https://github.com/XRuff/TotpAuth/issues"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/XRuff/TotpAuthenticator"
+		}
+	],
 	"require": {
 		"nette/di": "^3.0",
 		"nette/security": "^3.0",
 		"nette/http": "^3.0",
 		"tracy/tracy": "~2.6",
 		"xruff/basedbmodel": "^3.0",
-		"oops/totp-authenticator": "^2.2",
+		"oops/totp-authenticator": "dev-master",
 		"guzzlehttp/guzzle": "^6.5"
 	},
 	"require-dev": {
@@ -35,6 +41,6 @@
 	"scripts": {
 		"lint": "\"vendor/bin/phpcs\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --ignore=vendor src/.",
 		"fix": "\"vendor/bin/phpcbf\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --no-patch --ignore=vendor src/.",
-		"phpstan": "phpstan analyse --level 7 --configuration tests/phpstan.neon src"
+		"phpstan": "phpstan analyse --level 6 --configuration tests/phpstan.neon src"
 	}
 }

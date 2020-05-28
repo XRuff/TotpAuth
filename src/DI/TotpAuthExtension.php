@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace XRuff\TotpAuth\DI;
 
 use Nette;
@@ -10,6 +12,7 @@ class TotpAuthExtension extends Nette\DI\CompilerExtension
 	/** @var array<string, int|string|null> $defaults */
 	private $defaults = [
 		'issuer' => null,
+		'identityKey' => 'login',
 		'timeWindow' => 1,
 		'codeService' => 'https://chart.googleapis.com/chart?',
 		'codeSize' => '300x300',
@@ -25,6 +28,7 @@ class TotpAuthExtension extends Nette\DI\CompilerExtension
 		Validators::assert($config['issuer'], 'string', 'issuer');
 		Validators::assert($config['codeService'], 'string', 'codeService');
 		Validators::assert($config['codeSize'], 'string', 'codeSize');
+		Validators::assert($config['identityKey'], 'string', 'identityKey');
 
 		$configuration = $builder->addDefinition($this->prefix('config'))
 			->setClass('XRuff\TotpAuth\Configuration')
@@ -33,6 +37,7 @@ class TotpAuthExtension extends Nette\DI\CompilerExtension
 				$config['timeWindow'],
 				$config['codeService'],
 				$config['codeSize'],
+				$config['identityKey'],
 			]);
 
 		$builder->addDefinition($this->prefix('qrRepository'))
