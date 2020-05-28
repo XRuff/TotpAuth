@@ -4,12 +4,12 @@ namespace XRuff\TotpAuth;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Stream;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
 use Nette\Security\User;
 use Oops\TotpAuthenticator\Security\TotpAuthenticator;
+use Psr\Http\Message\StreamInterface;
 use Tracy\Debugger;
 
 class Auth {
@@ -20,10 +20,10 @@ class Auth {
 	/** @var QrRepository $qrRepository */
 	private $qrRepository;
 
-	/** @var Oops\TotpAuthenticator\Security\TotpAuthenticator $totpAuthenticator */
+	/** @var TotpAuthenticator $totpAuthenticator */
 	private $totpAuthenticator;
 
-	/** @var String $secret */
+	/** @var string $secret */
 	private $secret;
 
 	/** @var User $user */
@@ -60,7 +60,7 @@ class Auth {
 	}
 
 	/**
-	 * @return Nette\Database\Table\ActiveRow
+	 * @return ActiveRow
 	 */
 	public function saveSecret(): ActiveRow
 	{
@@ -82,9 +82,9 @@ class Auth {
 	}
 
 	/**
-	 * @return bool|string
+	 * @return string|null
 	 */
-	public function hasSecret()
+	public function hasSecret(): ?string
 	{
 		return $this->qrRepository
 			->getUserCode($this->user->id);
@@ -93,7 +93,7 @@ class Auth {
 	/**
 	 * @return string|null
 	 */
-	public function getQrBase64(): string
+	public function getQrBase64(): ?string
 	{
 		return $this->hasSecret() ? null : 'data:image/png;base64,' . base64_encode($this->getQr());
 	}
@@ -101,7 +101,7 @@ class Auth {
 	/**
 	 * @return bool
 	 */
-	public function verify($code): bool
+	public function verify(string $code): bool
 	{
 		$secret = $this->qrRepository
 			->getUserCode($this->user->id);
@@ -114,7 +114,7 @@ class Auth {
 	}
 
 	/**
-	 * @return Nette\Http\SessionSection
+	 * @return SessionSection
 	 */
 	private function getSessionSection(): SessionSection
 	{
@@ -153,9 +153,9 @@ class Auth {
 	}
 
 	/**
-	 * @return GuzzleHttp\Psr7\Stream
+	 * @return StreamInterface
 	 */
-	private function getQr(): Stream
+	private function getQr(): StreamInterface
 	{
 		$client = new Client();
 

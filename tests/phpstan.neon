@@ -1,0 +1,14 @@
+includes:
+    - ../vendor/phpstan/phpstan-nette/extension.neon
+
+parameters:
+    autoload_directories:
+        - ../vendor
+        - ../src
+
+    excludes_analyse:
+       - %rootDir%/vendor/*/tests/*
+       - %rootDir%/vendor/*/stub/*
+       - ../vendor/codeception
+       - ../vendor/phpunit
+       - ../vendor/tracy

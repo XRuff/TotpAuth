@@ -7,18 +7,20 @@ use Nette\Utils\Validators;
 
 class TotpAuthExtension extends Nette\DI\CompilerExtension
 {
-	/** @var array $DEFAULTS */
-	private static $DEFAULTS = [
+	/** @var array<string, int|string|null> $defaults */
+	private $defaults = [
 		'issuer' => null,
 		'timeWindow' => 1,
 		'codeService' => 'https://chart.googleapis.com/chart?',
 		'codeSize' => '300x300',
 	];
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->getConfig(self::$DEFAULTS);
+		$this->validateConfig($this->defaults);
+
+		$config = $this->config;
 
 		Validators::assert($config['issuer'], 'string', 'issuer');
 		Validators::assert($config['codeService'], 'string', 'codeService');
@@ -40,21 +42,11 @@ class TotpAuthExtension extends Nette\DI\CompilerExtension
 			->setClass('XRuff\TotpAuth\Auth');
 	}
 
-	public function afterCompile(Nette\PhpGenerator\ClassType $class)
+	public function afterCompile(Nette\PhpGenerator\ClassType $class): void
 	{
 	    $container = $this->getContainerBuilder();
 	    $initialize = $class->getMethod('initialize');
 	    $initialize->addBody('$service = $this->getByType("XRuff\TotpAuth\Auth");');
 	    $initialize->addBody('$service->setSession($this->getByType("Nette\Http\Session"));');
-	}
-
-	/**
-	 * @param Nette\Configurator $configurator
-	 */
-	public static function register(Nette\Configurator $configurator)
-	{
-		$configurator->onCompile[] = function ($config, Nette\DI\Compiler $compiler) {
-			$compiler->addExtension('totpAuth', new TotpAuthExtension());
-		};
 	}
 }

@@ -12,7 +12,7 @@ class QrRepository extends BaseDbModel {
 	 * @param int $userId
 	 * @return string|null
 	 */
-	public function getUserCode($userId)
+	public function getUserCode(int $userId): ?string
 	{
 		$result = $this->findSecret($userId)
 		    ->fetch();
@@ -28,7 +28,7 @@ class QrRepository extends BaseDbModel {
 	 * @param int $userId
 	 * @return int
 	 */
-	public function resetSecret($userId): int
+	public function resetSecret(int $userId): int
 	{
 		return $this->findSecret($userId)->delete();
 	}
@@ -36,9 +36,9 @@ class QrRepository extends BaseDbModel {
 	/**
 	 * @param int $userId
 	 * @param string $secret
-	 * @return Nette\Database\Table\ActiveRow
+	 * @return ActiveRow
 	 */
-	public function saveSecret($userId, $secret): ActiveRow
+	public function saveSecret(int $userId, string $secret): ActiveRow
 	{
 		return $this->save([
 			'user_id' => $userId,
@@ -48,12 +48,12 @@ class QrRepository extends BaseDbModel {
 
 	/**
 	 * @param int $userId
-	 * @return Nette\Database\Table\Selection
+	 * @return Selection
 	 */
-	private function findSecret($userId): Selection
+	private function findSecret(int $userId): Selection
 	{
 		return $this->findAll()
-		    ->where(['user_id' => $userId])
+		    ->where('user_id = ?', $userId)
 		    ->order('id DESC');
 	}
 }

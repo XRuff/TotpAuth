@@ -13,14 +13,18 @@
 		"issues": "https://github.com/XRuff/TotpAuth/issues"
 	},
 	"require": {
-		"tracy/tracy": "~2.3",
-		"xruff/basedbmodel": "dev-master",
-		"oops/totp-authenticator": "^2.1",
-		"guzzlehttp/guzzle": "^6.3"
+		"nette/di": "^3.0",
+		"nette/security": "^3.0",
+		"nette/http": "^3.0",
+		"tracy/tracy": "~2.6",
+		"xruff/basedbmodel": "^3.0",
+		"oops/totp-authenticator": "^2.2",
+		"guzzlehttp/guzzle": "^6.5"
 	},
 	"require-dev": {
 		"nette/tester": "~1.1.0",
-		"vanio/coding-standards": "^0.1@dev"
+		"vanio/coding-standards": "^0.1@dev",
+		"phpstan/phpstan-nette": "^0.12"
 	},
 	"autoload": {
 		"psr-4": {
@@ -30,6 +34,7 @@
 	"minimum-stability": "dev",
 	"scripts": {
 		"lint": "\"vendor/bin/phpcs\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --ignore=vendor src/.",
-		"fix": "\"vendor/bin/phpcbf\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --no-patch --ignore=vendor src/."
+		"fix": "\"vendor/bin/phpcbf\" --standard=ruleset.xml --extensions=php --encoding=utf-8 --no-patch --ignore=vendor src/.",
+		"phpstan": "phpstan analyse --level 7 --configuration tests/phpstan.neon src"
 	}
 }

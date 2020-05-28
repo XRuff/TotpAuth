@@ -2,7 +2,6 @@
 
 namespace XRuff\TotpAuth;
 
-use Nette\Object;
 use Nette\SmartObject;
 
 class Configuration
@@ -12,7 +11,7 @@ class Configuration
 	/** @var string $issuer */
 	public $issuer;
 
-	/** @var string $timeWindow */
+	/** @var int $timeWindow */
 	public $timeWindow;
 
 	/** @var string $codeService */
@@ -23,7 +22,7 @@ class Configuration
 
 	/**
 	 * @param string $issuer
-	 * @param string $timeWindow
+	 * @param int $timeWindow
 	 * @param string $codeService
 	 * @param string $codeSize
 	 */
